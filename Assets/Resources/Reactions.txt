@@ -1,0 +1,5 @@
+,Pyro,Hydro,Electro,Cryo
+Pyro,,Vaporize (1.5x),Overloaded,Melt (2x)
+Hydro,Vaporize (2x),,Electro-Charged,Frozen
+Electro,Overloaded,Electro-Charged,,Superconduct
+Cryo,Melt (1.5x),Frozen,Superconduct,
