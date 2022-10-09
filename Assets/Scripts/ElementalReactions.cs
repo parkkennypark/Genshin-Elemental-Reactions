@@ -4,13 +4,22 @@ using UnityEngine;
 
 public class ElementalReactions : MonoBehaviour
 {
-    public static string[,] reactions = new string[4, 4];
+    public static ReactionEntry[,] reactions = new ReactionEntry[4, 4];
+
+    public class ReactionEntry
+    {
+        public string reactionName;
+        public float damageMult;
+
+        public ReactionEntry(string reactionName, float damageMult)
+        {
+            this.reactionName = reactionName;
+            this.damageMult = damageMult;
+        }
+    }
 
     void Start()
     {
-
-
-
         var dataset = Resources.Load<TextAsset>("Reactions");
         var dataLines = dataset.text.Split('\n'); // Split also works with simple arguments, no need to pass char[]
 
@@ -19,13 +28,19 @@ public class ElementalReactions : MonoBehaviour
             var data = dataLines[i].Split(',');
             for (int d = 1; d < data.Length; d++)
             {
-                int element1 = i - 1;
-                int element2 = d - 1;
+                // int element1 = Element.SpreadsheetIndexToType(i - 1);
+                // int element2 = Element.SpreadsheetIndexToType(d - 1);
+
+                int index1 = i - 1;
+                int index2 = d - 1;
 
                 string line = data[d];
                 string[] split = data[d].Split(' ');
-                string reaction = split[0];
+                string reactionName = split[0];
                 float damageMult = 1;
+
+                if (reactionName == "")
+                    continue;
 
                 if (split.Length > 1)
                 {
@@ -33,12 +48,20 @@ public class ElementalReactions : MonoBehaviour
                     int endIndex = dmgStr.IndexOf(')');
                     string str = dmgStr.Substring(1, endIndex - 2);
                     damageMult = float.Parse(str);
-                    print(str);
                 }
 
-                reactions[element1, element2] = reaction;
+                ReactionEntry reaction = new ReactionEntry(reactionName, damageMult);
+                reactions[index1, index2] = reaction;
             }
         }
+    }
+
+    public static ReactionEntry GetReaction(Element.Type element1, Element.Type element2)
+    {
+        int index1 = Element.ElementToSpreadsheetIndex(element1);
+        int index2 = Element.ElementToSpreadsheetIndex(element2);
+
+        return reactions[index1, index2];
     }
 
 }

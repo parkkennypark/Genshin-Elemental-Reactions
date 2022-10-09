@@ -20,27 +20,27 @@ public class ElementPicker : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            bowElement.type = Element.Type.None;
+            bowElement.SetType(Element.Type.None);
             PickElement(0);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            bowElement.type = Element.Type.Pyro;
+            bowElement.SetType(Element.Type.Pyro);
             PickElement(1);
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            bowElement.type = Element.Type.Hydro;
+            bowElement.SetType(Element.Type.Hydro);
             PickElement(2);
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            bowElement.type = Element.Type.Electro;
+            bowElement.SetType(Element.Type.Electro);
             PickElement(3);
         }
         if (Input.GetKeyDown(KeyCode.Alpha5))
         {
-            bowElement.type = Element.Type.Cryo;
+            bowElement.SetType(Element.Type.Cryo);
             PickElement(4);
         }
     }

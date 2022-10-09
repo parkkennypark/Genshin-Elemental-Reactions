@@ -2,17 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Element))]
 public class Enemy : MonoBehaviour
 {
-    // Start is called before the first frame update
+    private Element element;
+
+    public GameObject elementIndicatorPrefab;
+
+    private ElementIndicator elementIndicator;
+
     void Start()
     {
-        
+        element = GetComponent<Element>();
+        element.changed_type.AddListener(OnElementChanged);
+
+        elementIndicator = Instantiate(elementIndicatorPrefab).GetComponent<ElementIndicator>();
+        elementIndicator.Setup(transform, Vector3.zero);
+        elementIndicator.UpdateElement(element.GetType());
     }
 
-    // Update is called once per frame
+    void OnElementChanged()
+    {
+        elementIndicator.UpdateElement(element.GetType());
+    }
+
     void Update()
     {
-        
+
     }
 }

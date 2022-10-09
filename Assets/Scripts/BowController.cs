@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Element))]
 public class BowController : MonoBehaviour
 {
     public enum State
@@ -16,7 +17,6 @@ public class BowController : MonoBehaviour
     public Transform arrowPrefab;
     public Camera camera;
     public Transform chargeIndicator;
-    public Element element;
     public Transform tip;
     public GameObject fullyChargedParticlesPrefab;
     public GameObject chargedParticles;
@@ -29,9 +29,12 @@ public class BowController : MonoBehaviour
 
     private float timeCharging;
     private float targetFOV;
+    private Element element;
 
     void Start()
     {
+        element = GetComponent<Element>();
+
         ChangeState(State.None);
     }
 
@@ -106,10 +109,11 @@ public class BowController : MonoBehaviour
 
         Vector3 dir = target - transform.position;
 
-        Transform arrow = Instantiate(arrowPrefab, transform.position, transform.rotation);
-        arrow.LookAt(target, Vector3.up);
-        arrow.GetComponent<Arrow>().Fire();
-        arrow.GetComponent<Element>().type = element.type;
+        Arrow arrow = Instantiate(arrowPrefab, transform.position, transform.rotation).GetComponent<Arrow>();
+        arrow.transform.LookAt(target, Vector3.up);
+
+        arrow.element.SetType(element.GetType());
+        arrow.Fire();
     }
 
     public State GetState()

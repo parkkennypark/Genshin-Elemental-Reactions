@@ -2,16 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Element))]
 public class Arrow : MonoBehaviour
 {
     public float fireForce;
     public float gravityForce;
     public Transform explosionPrefab;
     public Transform[] particlePrefabs;
-
+    public Element element;
 
     private Rigidbody rb;
-    private Element element;
+
+    private bool collided;
 
     void Start()
     {
@@ -36,8 +38,39 @@ public class Arrow : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        Transform explosion = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
-        Transform explosion2 = Instantiate(particlePrefabs[element.GetTypeEnum()], transform.position, Quaternion.identity);
+        if (collided)
+            return;
+
+        collided = true;
+        rb.isKinematic = true;
+
+        StartCoroutine(Delete());
+    }
+
+    IEnumerator Delete()
+    {
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
+
+        print(element.GetType());
+        int elementIndex = Element.ElementToIndex(element.GetType());
+        Transform elementEffector = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+        elementEffector.GetComponent<ElementEffectorArea>().SetElement(element.GetType());
+
+        Transform particles = Instantiate(particlePrefabs[elementIndex], transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
 }
