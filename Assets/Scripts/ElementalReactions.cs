@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class ElementalReactions : MonoBehaviour
 {
-    public static ReactionEntry[,] reactions = new ReactionEntry[4, 4];
+    public static Reaction[,] reactions = new Reaction[4, 4];
 
-    public class ReactionEntry
+    public class Reaction
     {
         public string reactionName;
         public float damageMult;
 
-        public ReactionEntry(string reactionName, float damageMult)
+        public Reaction(string reactionName, float damageMult)
         {
             this.reactionName = reactionName;
             this.damageMult = damageMult;
@@ -50,18 +50,22 @@ public class ElementalReactions : MonoBehaviour
                     damageMult = float.Parse(str);
                 }
 
-                ReactionEntry reaction = new ReactionEntry(reactionName, damageMult);
+                Reaction reaction = new Reaction(reactionName, damageMult);
                 reactions[index1, index2] = reaction;
             }
         }
     }
 
-    public static ReactionEntry GetReaction(Element.Type element1, Element.Type element2)
+    public static Reaction GetReaction(Element.Type element1, Element.Type element2)
     {
+        if (element1 == Element.Type.None || element2 == Element.Type.None)
+            return null;
+
         int index1 = Element.ElementToSpreadsheetIndex(element1);
         int index2 = Element.ElementToSpreadsheetIndex(element2);
+        Reaction reaction = reactions[index1, index2];
 
-        return reactions[index1, index2];
+        return reaction;
     }
 
 }

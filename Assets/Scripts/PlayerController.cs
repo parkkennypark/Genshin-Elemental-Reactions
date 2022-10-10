@@ -37,20 +37,21 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        Vector3 forwardTarget = Vector3.zero;
+        float forwardAngle = transform.eulerAngles.y;
         if (bow.GetState() == BowController.State.None)
         {
-            // if (GetHorizontalVelocity().magnitude > 0.1)
-            forwardTarget = GetHorizontalVelocity();
-            // else
-            // forwardTarget = transform.forward;
+            if (GetHorizontalVelocity().sqrMagnitude > 0.1f)
+            {
+                forwardAngle = Vector3.SignedAngle(Vector3.forward, GetHorizontalVelocity(), Vector3.up);
+            }
+
         }
         else
         {
-            forwardTarget = Camera.main.transform.forward;
+            forwardAngle = Camera.main.transform.eulerAngles.y;
         }
-        forwardTarget.y = 0;
-        transform.forward = Vector3.Lerp(transform.forward, forwardTarget, Time.deltaTime * 8);
+        Quaternion targetRot = Quaternion.AngleAxis(forwardAngle, Vector3.up);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * 8);
 
         // Update timeSinceLeftPlatform.
         if (IsGrounded())

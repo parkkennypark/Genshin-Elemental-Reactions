@@ -37,25 +37,24 @@ public class Enemy : MonoBehaviour
 
     }
 
-    public void TakeDamage(Element.Type incomingElement, int damage, bool dontEffectElement)
+    public void TakeDamage(Element.Type incomingElement, int damage, bool secondaryDamage)
     {
-        ElementalReactions.ReactionEntry reaction = ElementalReactions.GetReaction(element.GetType(), incomingElement);
-        if (reaction != null)
+        ElementalReactions.Reaction reaction = ElementalReactions.GetReaction(element.GetType(), incomingElement);
+        if (reaction != null && !secondaryDamage)
         {
             damage = Mathf.RoundToInt(damage * reaction.damageMult);
 
             ReactionIndicator reactionIndicator = Instantiate(reactionIndicatorPrefab).GetComponent<ReactionIndicator>();
             reactionIndicator.Setup(transform, Vector3.up * 1);
             reactionIndicator.SetReaction(reaction);
-
         }
 
-        if (baseType == Element.Type.None || dontEffectElement)
+        if (baseType == Element.Type.None && !secondaryDamage)
         {
             element.SetType(incomingElement);
         }
 
-        if (incomingElement == Element.Type.Pyro && !dontEffectElement)
+        if (incomingElement == Element.Type.Pyro && !secondaryDamage)
         {
             StartCoroutine(TakeContinuousDamage(incomingElement, damage / 10, 0.2f, 15));
         }
