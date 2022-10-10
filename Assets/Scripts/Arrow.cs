@@ -44,31 +44,10 @@ public class Arrow : MonoBehaviour
         collided = true;
         rb.isKinematic = true;
 
-        StartCoroutine(Delete());
-    }
 
-    IEnumerator Delete()
-    {
-        yield return new WaitForEndOfFrame();
-        yield return new WaitForEndOfFrame();
-        yield return new WaitForEndOfFrame();
-        yield return new WaitForEndOfFrame();
-        yield return new WaitForEndOfFrame();
-        yield return new WaitForEndOfFrame();
-        yield return new WaitForEndOfFrame();
-        yield return new WaitForEndOfFrame();
-        yield return new WaitForEndOfFrame();
-        yield return new WaitForEndOfFrame();
-        yield return new WaitForEndOfFrame();
-        yield return new WaitForEndOfFrame();
-        yield return new WaitForEndOfFrame();
-        yield return new WaitForEndOfFrame();
-        yield return new WaitForEndOfFrame();
-
-        print(element.GetType());
         int elementIndex = Element.ElementToIndex(element.GetType());
         Transform elementEffector = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
-        elementEffector.GetComponent<ElementEffectorArea>().SetElement(element.GetType());
+        elementEffector.GetComponent<ElementEffectorArea>().Setup(element.GetType());
 
         Transform particles = Instantiate(particlePrefabs[elementIndex], transform.position, Quaternion.identity);
         Destroy(gameObject);

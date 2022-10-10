@@ -22,7 +22,6 @@ public class Element : MonoBehaviour
     public void SetType(Type type)
     {
         this.type = type;
-        print(name + " type changed to " + type);
         changed_type.Invoke();
     }
 

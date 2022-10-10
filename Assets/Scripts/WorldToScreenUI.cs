@@ -9,11 +9,10 @@ public class WorldToScreenUI : MonoBehaviour
     private RectTransform rt;
     private CanvasGroup canvasGroup;
 
-    private void Start()
+    public virtual void Start()
     {
         rt = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
-
     }
 
     public void Setup(Transform target, Vector3 offset)
@@ -29,7 +28,7 @@ public class WorldToScreenUI : MonoBehaviour
         Vector3 targetPos = target.position + offset;
 
         float distance = Vector3.Distance(Camera.main.transform.position, targetPos);
-        canvasGroup.alpha = distance < 12 ? 1 : 0;
+        canvasGroup.alpha = distance < 18 ? 1 : 0;
 
         Vector2 pos = Camera.main.WorldToScreenPoint(targetPos);
         rt.position = pos;
