@@ -30,23 +30,6 @@ public class Element : MonoBehaviour
         return ElementToIndex(type);
     }
 
-    public static int SpreadsheetIndexToType(int index)
-    {
-        switch (index)
-        {
-            case 0:
-                return 4;
-            case 1:
-                return 3;
-            case 2:
-                return 2;
-            case 3:
-                return 1;
-        }
-
-        return 0;
-    }
-
     public static int ElementToIndex(Type type)
     {
         if (type == Type.Cryo)
