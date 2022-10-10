@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class ElementIndicator : WorldToScreenUI
 {
@@ -20,5 +21,11 @@ public class ElementIndicator : WorldToScreenUI
             image.enabled = true;
             image.sprite = sprites[Element.ElementToIndex(element)];
         }
+    }
+
+    public void SetName(Element.Type baseType)
+    {
+        TextMeshProUGUI text = GetComponentInChildren<TextMeshProUGUI>();
+        text.text = baseType + " " + text.text;
     }
 }

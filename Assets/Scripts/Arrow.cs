@@ -12,6 +12,7 @@ public class Arrow : MonoBehaviour
     public Element element;
 
     private Rigidbody rb;
+    private float chargeRatio;
 
     private bool collided;
 
@@ -29,11 +30,12 @@ public class Arrow : MonoBehaviour
         rb.AddForce(Vector3.down * gravityForce * Time.deltaTime);
     }
 
-    public void Fire()
+    public void Fire(float chargeRatio)
     {
         rb = GetComponent<Rigidbody>();
-
         rb.AddForce(transform.forward * fireForce);
+
+        this.chargeRatio = chargeRatio;
     }
 
     void OnTriggerEnter(Collider other)
@@ -47,7 +49,7 @@ public class Arrow : MonoBehaviour
 
         int elementIndex = Element.ElementToIndex(element.GetType());
         Transform elementEffector = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
-        elementEffector.GetComponent<ElementEffectorArea>().Setup(element.GetType());
+        elementEffector.GetComponent<ElementEffectorArea>().Setup(element.GetType(), chargeRatio, transform.forward);
 
         Transform particles = Instantiate(particlePrefabs[elementIndex], transform.position, Quaternion.identity);
         Destroy(gameObject);

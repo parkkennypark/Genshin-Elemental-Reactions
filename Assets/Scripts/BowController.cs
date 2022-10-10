@@ -53,9 +53,8 @@ public class BowController : MonoBehaviour
         {
             timeCharging += Time.deltaTime;
 
-            float chargeRatio = timeCharging / timeToFullCharge;
-            chargeIndicator.localScale = Vector3.one * (1 - chargeRatio);
-            targetFOV = aimingFOV - chargeRatio * charingFOVChange;
+            chargeIndicator.localScale = Vector3.one * (1 - GetChargeRatio());
+            targetFOV = aimingFOV - GetChargeRatio() * charingFOVChange;
 
             if (timeCharging >= timeToFullCharge)
             {
@@ -65,16 +64,16 @@ public class BowController : MonoBehaviour
 
             if (Input.GetButtonUp("Fire1"))
             {
+                Fire(GetChargeRatio());
                 ChangeState(State.None);
-                Fire(false);
             }
         }
         else
         {
             if (Input.GetButtonUp("Fire1"))
             {
+                Fire(GetChargeRatio());
                 ChangeState(State.None);
-                Fire(true);
             }
         }
     }
@@ -98,7 +97,7 @@ public class BowController : MonoBehaviour
         }
     }
 
-    void Fire(bool fullCharge)
+    void Fire(float chargeRatio)
     {
         Vector3 target = camera.transform.forward * 200;
         RaycastHit hit;
@@ -113,11 +112,16 @@ public class BowController : MonoBehaviour
         arrow.transform.LookAt(target, Vector3.up);
 
         arrow.element.SetType(element.GetType());
-        arrow.Fire();
+        arrow.Fire(chargeRatio);
     }
 
     public State GetState()
     {
         return state;
+    }
+
+    float GetChargeRatio()
+    {
+        return timeCharging / timeToFullCharge;
     }
 }
