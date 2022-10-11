@@ -60,14 +60,18 @@ public class Enemy : MonoBehaviour
             reactionIndicator.Setup(transform, Vector3.up * 1);
             reactionIndicator.SetReaction(reaction);
 
-            if (reaction.reactionName == "Overloaded")
+            print(reaction.reactionName);
+
+            if (reaction.reactionName.Contains("Overloaded"))
                 Instantiate(overloadedExplosionPrefab, transform.position - dir.normalized, Quaternion.identity);
 
-            if (reaction.reactionName == "Electro-Charged")
+            if (reaction.reactionName.Contains("Electro-Charged"))
                 StartCoroutine(TakeContinuousDamage(incomingElement, damage / 10, 0.2f, 15));
 
-            if (reaction.reactionName == "Superconduct")
+            if (reaction.reactionName.Contains("Superconduct"))
+            {
                 Instantiate(superconductExplosionPrefab, transform.position - dir.normalized, Quaternion.identity);
+            }
 
             if (baseType == Element.Type.None)
                 element.SetType(Element.Type.None);

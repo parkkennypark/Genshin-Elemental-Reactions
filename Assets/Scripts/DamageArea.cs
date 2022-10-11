@@ -7,11 +7,14 @@ public class DamageArea : MonoBehaviour
     public Element element;
     public int damage;
     public float knockbackRatio = 2;
+    public GameObject particlesPrefab;
+    public float particlesScale;
 
     private void Start()
     {
-        Destroy(gameObject, 0.2f);
+        Destroy(gameObject, 0.1f);
 
+        Instantiate(particlesPrefab, transform.position, Quaternion.identity).transform.localScale = Vector3.one * particlesScale;
     }
 
     void OnTriggerEnter(Collider other)
